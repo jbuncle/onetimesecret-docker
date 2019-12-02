@@ -14,7 +14,7 @@ RUN curl -L -O https://github.com/onetimesecret/onetimesecret/archive/master.tar
     && mv onetimesecret-master ${ONETIME_HOME} \
     && cd ${ONETIME_HOME} \
     && bundle install --frozen --deployment --without=dev \
-    && bin/ots init && \
+    && bin/ots init \
     && useradd -ms /bin/bash ots \
     && cd ${ONETIME_HOME} \
     && mkdir /var/log/onetime /var/run/onetime /var/lib/onetime \
