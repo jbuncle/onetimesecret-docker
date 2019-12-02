@@ -14,7 +14,7 @@ sed -i "s/  :domain: localhost/  :domain: ${VIRTUAL_HOST}/" ${ONETIME_HOME}/etc/
 sed -i "s/  :ssl: false/  :ssl: ${SSL}/" ${ONETIME_HOME}/etc/config
 
 # Generate secret and store it, then replace into config
-test -f  /var/opt/onetime/secret || echo $(openssl rand -base64 32) >>  /var/opt/onetime/secret
+test -f  /var/opt/onetime/secret || echo $(openssl rand -hex 32) >>  /var/opt/onetime/secret
 sed -i "s/  :secret: CHANGEME/  :secret: $(cat  /var/opt/onetime/secret)/" ${ONETIME_HOME}/etc/config
 
 # Disable example colonels
