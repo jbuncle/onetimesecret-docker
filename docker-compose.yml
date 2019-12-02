@@ -1,0 +1,32 @@
+version: '2.2'
+
+services:
+    redis:
+        build: redis
+        environment:
+            REDIS_PASSWORD: $REDIS_PASSWORD
+                     
+    onetimesecret:
+        depends_on:
+          - redis
+        build: onetimesecret
+        networks:
+            - shared
+            - default
+        dns:
+            - "8.8.8.8"
+        environment:
+           DEFAULT_HOST: $HOSTNAME
+           VIRTUAL_HOST: $HOSTNAME
+           EXTERNAL_HOST: $HOSTNAME
+           REDIS_HOST: redis
+           REDIS_PASSWORD: $REDIS_PASSWORD
+           SSL: 'true'
+        logging:
+            driver: json-file
+            options:
+               max-size: "100m"
+
+networks:
+    shared:
+        external: true
