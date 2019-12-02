@@ -5,25 +5,23 @@ RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get install -y ntp libyaml-dev libevent-dev zlib1g zlib1g-dev openssl libssl-dev libxml2 libreadline-gplv2-dev curl
 
-WORKDIR /root/sources
-ENV ONETIME_HOME=/root/sources/onetimesecret
+RUN useradd -ms /bin/bash ots \
+    && mkdir /var/opt/onetime /etc/onetime  /var/lib/onetime \
+    && chown ots /var/opt/onetime /etc/onetime /var/lib/onetime
 
-# Install One-Time Secret
+USER ots
+WORKDIR /home/ots
 RUN curl -L -O https://github.com/onetimesecret/onetimesecret/archive/master.tar.gz \
     && tar xzf master.tar.gz \
-    && mv onetimesecret-master ${ONETIME_HOME} \
-    && cd ${ONETIME_HOME} \
-    && bundle install --frozen --deployment --without=dev \
+    && mv onetimesecret-master onetimesecret
+WORKDIR onetimesecret
+RUN bundle install --frozen --deployment --without=dev \
     && bin/ots init \
-    && useradd -ms /bin/bash ots \
-    && cd ${ONETIME_HOME} \
-    && mkdir /var/log/onetime /var/run/onetime /var/lib/onetime \
-    && chown -R ots:ots /var/log/onetime /var/run/onetime /var/lib/onetime
+    && cp -R etc/* /etc/onetime/
 
+USER root
 VOLUME /var/opt/onetime
-WORKDIR /root/sources/onetimesecret-master
 ADD entrypoint.sh /entrypoint.sh 
 CMD /entrypoint.sh
 
 EXPOSE 7143
-

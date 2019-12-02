@@ -19,6 +19,7 @@ services:
         depends_on:
           - redis
         image: jbuncle/onetimesecret-docker
+#        build: .
         restart: always
         networks:
             - shared
@@ -31,7 +32,7 @@ services:
            EXTERNAL_HOST: $HOSTNAME
            REDIS_HOST: redis
            REDIS_PASSWORD: $REDIS_PASSWORD
-           SSL: 'true'
+           SSL: 'false'
         logging:
             driver: json-file
             options:
