@@ -2,14 +2,14 @@ version: '2.2'
 
 services:
     redis:
-        build: redis
+        image: jbuncle/onetimesecret-redis-docker
         environment:
             REDIS_PASSWORD: $REDIS_PASSWORD
                      
     onetimesecret:
         depends_on:
           - redis
-        build: onetimesecret
+        image: jbuncle/onetimesecret-docker
         networks:
             - shared
             - default
