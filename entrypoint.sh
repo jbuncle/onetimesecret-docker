@@ -24,5 +24,5 @@ echo 'map("/img/") { run Rack::File.new("#{PUBLIC_DIR}/img") }' >> config.ru
 echo 'map("/js/") { run Rack::File.new("#{PUBLIC_DIR}/js") }' >> config.ru
 echo 'map("/css/") { run Rack::File.new("#{PUBLIC_DIR}/css") }' >> config.ru
 
-cat config.ru
+# cat config.ru
 bundle exec thin -R config.ru -p 7143 start
