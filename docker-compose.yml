@@ -2,14 +2,24 @@ version: '2.2'
 
 services:
     redis:
+        mem_limit: 256m
+        cpus: 0.25
+        restart: always
         image: jbuncle/onetimesecret-redis-docker
         environment:
             REDIS_PASSWORD: $REDIS_PASSWORD
-                     
+        logging:
+            driver: json-file
+            options:
+               max-size: "100m"
+           
     onetimesecret:
+        mem_limit: 512m
+        cpus: 1
         depends_on:
           - redis
         image: jbuncle/onetimesecret-docker
+        restart: always
         networks:
             - shared
             - default
